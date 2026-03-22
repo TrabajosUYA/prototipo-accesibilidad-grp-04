@@ -42,13 +42,22 @@
                     <legend>Datos del trayecto</legend>
 
                     <label for="origen">Origen</label>
-                    <input type="text" id="origen" required aria-required="true">
+                    <select id="origen" required>
+                        <option value="">Selecciona origen</option>
+                        <option value="sur">Aeropuerto Tenerife Sur</option>
+                        <option value="norte">Aeropuerto Tenerife Norte</option>
+                    </select>
 
                     <label for="destino">Destino</label>
-                    <input type="text" id="destino" required>
+                    <select id="destino" required>
+                        <option value="">Selecciona destino</option>
+                        <option value="laguna">La Laguna</option>
+                        <option value="santacruz">Santa Cruz</option>
+                        <option value="adeje">Adeje</option>
+                    </select>
 
                     <label for="fecha">Fecha</label>
-                    <input type="date" id="fecha" required>
+                    <input type="date" id="fecha" required min="">
 
                     <label for="personas">Número de pasajeros</label>
                     <input type="number" id="personas" min="1" max="8">
@@ -64,6 +73,8 @@
                 </fieldset>
 
                 <button class="btn" type="submit">Confirmar reserva</button>
+
+                <div id="errorBox" aria-live="assertive"></div>
 
                 <div id="formStatus" aria-live="assertive" style="margin-top:10px; font-weight:bold;"></div>
 

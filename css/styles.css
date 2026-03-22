@@ -118,7 +118,7 @@ header {
 .hero {
   background:
     linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-    url('../assets/aeropuerto.jpg') center/cover no-repeat;
+    url('../assets/hero.png') center/cover no-repeat;
   height: 70vh;
   display: flex;
   align-items: center;
@@ -236,6 +236,27 @@ input, textarea {
 input:focus, textarea:focus {
   border-color: var(--primary);
   outline: none;
+}
+
+/* ERROR INPUT */
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border: 2px solid red;
+}
+
+/* CAJA DE ERRORES */
+#errorBox {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background: #ffe5e5;
+  color: #b00020;
+  display: none;
+}
+
+#errorBox ul {
+  margin: 0;
+  padding-left: 20px;
 }
 
 .titulo-reserva {

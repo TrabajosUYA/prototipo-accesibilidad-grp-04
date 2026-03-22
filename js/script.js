@@ -3,67 +3,96 @@
 // ==========================
 const reservaForm = document.getElementById("reservaForm");
 const formStatus = document.getElementById("formStatus");
+const fechaInput = document.getElementById("fecha");
 
-reservaForm?.addEventListener("submit", function(e) {
+if (fechaInput) {
+  const hoy = new Date().toISOString().split("T")[0];
+  fechaInput.setAttribute("min", hoy);
+}
+
+reservaForm?.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // Limpiar errores previos
+  const errorBox = document.getElementById("errorBox");
+  errorBox.innerHTML = "";
+  errorBox.style.display = "none";
+
   formStatus.textContent = "";
-  const inputs = reservaForm.querySelectorAll("input");
+
+  const inputs = reservaForm.querySelectorAll("input, select");
+
   inputs.forEach(input => {
     input.removeAttribute("aria-invalid");
-    const err = document.getElementById(input.id + "-error");
-    if (err) err.remove();
   });
 
-  let firstError = null;
   let errors = [];
 
-  // Validar campos requeridos
+  const origen = document.getElementById("origen");
+  const destino = document.getElementById("destino");
+
+  // Campos vacíos
   inputs.forEach(input => {
-    if (input.required && !input.value.trim()) {
-      errors.push({input, msg: "Este campo es obligatorio"});
-    }
-
-    // Validar email
-    if (input.type === "email" && input.value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(input.value)) {
-        errors.push({input, msg: "Formato de email no válido"});
-      }
-    }
-
-    // Validar número de pasajeros
-    if (input.id === "personas" && input.value) {
-      const val = parseInt(input.value, 10);
-      if (val < 1 || val > 8) {
-        errors.push({input, msg: "Debe ser entre 1 y 8 pasajeros"});
-      }
+    if (input.required && !input.value) {
+      errors.push({ input, msg: "El campo " + input.previousElementSibling.textContent + " es obligatorio" });
     }
   });
 
-  // Mostrar errores accesibles
+  // Validar origen != destino
+  if (origen.value && destino.value && origen.value === destino.value) {
+    errors.push({ input: destino, msg: "Origen y destino no pueden ser iguales" });
+  }
+
+  // Validar email
+  const email = document.getElementById("email");
+  if (email.value) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value)) {
+      errors.push({ input: email, msg: "Formato de email no válido" });
+    }
+  }
+
+  // Validar pasajeros
+  const personas = document.getElementById("personas");
+  if (personas.value) {
+    const val = parseInt(personas.value, 10);
+    if (val < 1 || val > 8) {
+      errors.push({ input: personas, msg: "Pasajeros entre 1 y 8" });
+    }
+  }
+
+  const fecha = document.getElementById("fecha");
+
+  if (fecha.value) {
+    const hoy = new Date().toISOString().split("T")[0];
+
+    if (fecha.value < hoy) {
+      errors.push({ input: fecha, msg: "La fecha no puede ser anterior a hoy" });
+    }
+  }
+
+  // SI HAY ERRORES
   if (errors.length > 0) {
-    errors.forEach(({input, msg}) => {
+
+    errorBox.style.display = "block";
+
+    let ul = document.createElement("ul");
+
+    errors.forEach(({ input, msg }) => {
       input.setAttribute("aria-invalid", "true");
 
-      // Crear mensaje de error
-      let errorEl = document.createElement("div");
-      errorEl.id = input.id + "-error";
-      errorEl.textContent = msg;
-      errorEl.style.color = "red";
-      errorEl.style.marginTop = "4px";
-      errorEl.setAttribute("role", "alert");
-      input.insertAdjacentElement("afterend", errorEl);
+      let li = document.createElement("li");
+      li.textContent = msg;
+      ul.appendChild(li);
     });
 
-    // Focus en primer error
+    errorBox.appendChild(ul);
+
     errors[0].input.focus();
     return;
   }
 
-  // Si no hay errores
-  formStatus.textContent = "✅ Reserva enviada correctamente";
+  // OK
+  formStatus.textContent = "Reserva enviada correctamente";
 });
 
 // ==========================
@@ -72,7 +101,7 @@ reservaForm?.addEventListener("submit", function(e) {
 const contactForm = document.getElementById("contactForm");
 const contactStatus = document.getElementById("status");
 
-contactForm?.addEventListener("submit", function(e) {
+contactForm?.addEventListener("submit", function (e) {
   e.preventDefault();
 
   contactStatus.textContent = "";
@@ -87,20 +116,20 @@ contactForm?.addEventListener("submit", function(e) {
 
   inputs.forEach(input => {
     if (input.required && !input.value.trim()) {
-      errors.push({input, msg: "Este campo es obligatorio"});
+      errors.push({ input, msg: "Este campo es obligatorio" });
     }
 
     // Validar email si existe
     if (input.type === "email" && input.value) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(input.value)) {
-        errors.push({input, msg: "Formato de email no válido"});
+        errors.push({ input, msg: "Formato de email no válido" });
       }
     }
   });
 
   if (errors.length > 0) {
-    errors.forEach(({input, msg}) => {
+    errors.forEach(({ input, msg }) => {
       input.setAttribute("aria-invalid", "true");
       let errorEl = document.createElement("div");
       errorEl.id = input.id + "-error";
@@ -115,5 +144,5 @@ contactForm?.addEventListener("submit", function(e) {
     return;
   }
 
-  contactStatus.textContent = "✅ Mensaje enviado correctamente";
+  contactStatus.textContent = "Mensaje enviado correctamente";
 });

@@ -226,6 +226,8 @@ label {
 
 input, textarea {
   width: 100%;
+  max-width: 100%;
+  min-width: 100%;
   padding: 12px;
   margin-top: 6px;
   border-radius: 8px;
@@ -236,6 +238,24 @@ input, textarea {
 input:focus, textarea:focus {
   border-color: var(--primary);
   outline: none;
+}
+
+.origen-select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.destino-select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
 }
 
 /* ERROR INPUT */
@@ -260,7 +280,15 @@ select[aria-invalid="true"] {
 }
 
 .titulo-reserva {
-    margin-left: 20px;
+  margin-left: 20px;
+}
+
+.titulo-gestion {
+  margin-left: 20px;
+}
+
+.titulo-contacto {
+  margin-left: 20px;
 }
 
 /* TABLA */

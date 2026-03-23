@@ -2,88 +2,89 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Reserva</title>
-    <link rel="stylesheet" href="../css/styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Reserva</title>
+	<link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
 
-    <header>
-        <nav class="nav container" aria-label="Navegación principal">
-            <div class="logo">
-                <a href="index.html">Taxi Tenerife</a>
-            </div>
+	<header>
+		<nav class="nav container" aria-label="Navegación principal">
 
-            <!-- Menú principal -->
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="reserva.html">Reservar</a></li>
-                <li><a href="gestion.html">Gestionar</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-            </ul>
+			<div class="logo">
+				<a href="index.html">Taxi Tenerife</a>
+			</div>
 
-            <!-- Botón menú responsive (opcional) -->
-            <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
-                ☰
-            </button>
-        </nav>
-    </header>
+			<ul id="nav-menu">
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="reserva.html">Reservar</a></li>
+				<li><a href="gestion.html">Gestionar</a></li>
+				<li><a href="contacto.html">Contacto</a></li>
+			</ul>
 
-    <a href="#main" class="skip-link">Saltar al contenido</a>
+			<button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
+				☰
+			</button>
 
-    <main id="main">
-        <h1 class="titulo-reserva">Reserva tu taxi</h1>
+		</nav>
+	</header>
 
-        <div class="form-container">
-            <form id="reservaForm" novalidate>
+	<a href="#main" class="skip-link">Saltar al contenido</a>
 
-                <fieldset>
-                    <legend>Datos del trayecto</legend>
+	<main id="main">
+		<h1 class="titulo-reserva">Reserva tu taxi</h1>
 
-                    <label for="origen">Origen</label>
-                    <select id="origen" required class="origen-select">
-                        <option value="">Selecciona origen</option>
-                        <option value="sur">Aeropuerto Tenerife Sur</option>
-                        <option value="norte">Aeropuerto Tenerife Norte</option>
-                    </select>
+		<div class="form-container">
+			<form id="reservaForm" novalidate>
 
-                    <label for="destino">Destino</label>
-                    <select id="destino" required class="destino-select">
-                        <option value="">Selecciona destino</option>
-                        <option value="laguna">La Laguna</option>
-                        <option value="santacruz">Santa Cruz</option>
-                        <option value="adeje">Adeje</option>
-                    </select>
+				<fieldset>
+					<legend>Datos del trayecto</legend>
 
-                    <label for="fecha">Fecha</label>
-                    <input type="date" id="fecha" required min="">
+					<label for="origen">Origen</label>
+					<select id="origen" required class="origen-select">
+						<option value="">Selecciona origen</option>
+						<option value="sur">Aeropuerto Tenerife Sur</option>
+						<option value="norte">Aeropuerto Tenerife Norte</option>
+					</select>
 
-                    <label for="personas">Número de pasajeros</label>
-                    <input type="number" id="personas" min="1" max="8">
+					<label for="destino">Destino</label>
+					<select id="destino" required class="destino-select">
+						<option value="">Selecciona destino</option>
+						<option value="laguna">La Laguna</option>
+						<option value="santacruz">Santa Cruz</option>
+						<option value="adeje">Adeje</option>
+					</select>
 
-                </fieldset>
+					<label for="fecha">Fecha</label>
+					<input type="date" id="fecha" required min="">
 
-                <fieldset>
-                    <legend>Datos de contacto</legend>
+					<label for="personas">Número de pasajeros</label>
+					<input type="number" id="personas" min="1" max="8">
 
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
+				</fieldset>
 
-                </fieldset>
+				<fieldset>
+					<legend>Datos de contacto</legend>
 
-                <button class="btn" type="submit">Confirmar reserva</button>
+					<label for="email">Email</label>
+					<input type="email" id="email" required>
 
-                <div id="errorBox" aria-live="assertive"></div>
+				</fieldset>
 
-                <div id="formStatus" aria-live="assertive" style="margin-top:10px; font-weight:bold;"></div>
+				<button class="btn" type="submit">Confirmar reserva</button>
 
-            </form>
-        </div>
+				<div id="errorBox" aria-live="assertive"></div>
 
-    </main>
+				<div id="formStatus" aria-live="assertive" style="margin-top:10px; font-weight:bold;"></div>
 
-    <script src="../js/script.js"></script>
+			</form>
+		</div>
+
+	</main>
+
+	<script src="../js/script.js"></script>
 </body>
 
 </html>

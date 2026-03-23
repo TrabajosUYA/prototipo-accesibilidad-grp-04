@@ -1,4 +1,20 @@
 // ==========================
+// NAVBAR RESPONSIVE
+// ==========================
+const toggleButton = document.querySelector(".nav-toggle");
+const navMenu = document.getElementById("nav-menu");
+
+toggleButton?.addEventListener("click", () => {
+  const expanded = toggleButton.getAttribute("aria-expanded") === "true";
+
+  // Cambiar estado accesible
+  toggleButton.setAttribute("aria-expanded", !expanded);
+
+  // Mostrar / ocultar menú
+  navMenu.classList.toggle("show");
+});
+
+// ==========================
 // FORMULARIO RESERVA
 // ==========================
 const reservaForm = document.getElementById("reservaForm");

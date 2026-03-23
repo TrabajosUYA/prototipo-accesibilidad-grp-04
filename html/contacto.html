@@ -2,58 +2,59 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Contacto</title>
-    <link rel="stylesheet" href="../css/styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contacto</title>
+	<link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
 
-    <header>
-        <nav class="nav container" aria-label="Navegación principal">
-            <div class="logo">
-                <a href="index.html">Taxi Tenerife</a>
-            </div>
+	<header>
+		<nav class="nav container" aria-label="Navegación principal">
 
-            <!-- Menú principal -->
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="reserva.html">Reservar</a></li>
-                <li><a href="gestion.html">Gestionar</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-            </ul>
+			<div class="logo">
+				<a href="index.html">Taxi Tenerife</a>
+			</div>
 
-            <!-- Botón menú responsive (opcional) -->
-            <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
-                ☰
-            </button>
-        </nav>
-    </header>
+			<ul id="nav-menu">
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="reserva.html">Reservar</a></li>
+				<li><a href="gestion.html">Gestionar</a></li>
+				<li><a href="contacto.html">Contacto</a></li>
+			</ul>
 
-    <a href="#main" class="skip-link">Saltar al contenido</a>
+			<button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
+				☰
+			</button>
 
-    <main id="main">
-        <h1 class="titulo-contacto">Contacto</h1>
+		</nav>
+	</header>
 
-        <div class="form-container">
-            <form id="contactForm" novalidate>
+	<a href="#main" class="skip-link">Saltar al contenido</a>
 
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" required>
+	<main id="main">
+		<h1 class="titulo-contacto">Contacto</h1>
 
-                <label for="mensaje">Mensaje</label>
-                <textarea id="mensaje" required></textarea>
+		<div class="form-container">
+			<form id="contactForm" novalidate>
 
-                <button class="btn">Enviar</button>
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombre" required>
 
-                <div id="status" aria-live="polite" style="margin-top:10px; font-weight:bold;"></div>
+				<label for="mensaje">Mensaje</label>
+				<textarea id="mensaje" required></textarea>
 
-            </form>
-        </div>
+				<button class="btn">Enviar</button>
 
-    </main>
+				<div id="status" aria-live="polite" style="margin-top:10px; font-weight:bold;"></div>
 
-    <script src="../js/script.js"></script>
+			</form>
+		</div>
+
+	</main>
+
+	<script src="../js/script.js"></script>
 </body>
 
 </html>

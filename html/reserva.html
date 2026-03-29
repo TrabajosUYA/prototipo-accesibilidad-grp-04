@@ -10,6 +10,8 @@
 
 <body>
 
+	<a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
+
 	<header>
 		<nav class="nav container" aria-label="Navegación principal">
 
@@ -31,53 +33,56 @@
 		</nav>
 	</header>
 
-	<a href="#main" class="skip-link">Saltar al contenido</a>
-
 	<main id="main">
 		<h1 class="titulo-reserva">Reserva tu taxi</h1>
 
 		<div class="form-container">
-			<form id="reservaForm" novalidate>
+			<form id="reservaForm" novalidate aria-describedby="reserva-ayuda">
+				<p id="reserva-ayuda">Los campos marcados con * son obligatorios. Revisa los datos antes de confirmar la
+					reserva.</p>
 
 				<fieldset>
 					<legend>Datos del trayecto</legend>
 
-					<label for="origen">Origen</label>
-					<select id="origen" required class="origen-select">
+					<label for="origen">Origen *</label>
+					<select id="origen" name="origen" required aria-required="true" class="origen-select">
 						<option value="">Selecciona origen</option>
 						<option value="sur">Aeropuerto Tenerife Sur</option>
 						<option value="norte">Aeropuerto Tenerife Norte</option>
 					</select>
 
-					<label for="destino">Destino</label>
-					<select id="destino" required class="destino-select">
+					<label for="destino">Destino *</label>
+					<select id="destino" name="destino" required aria-required="true" class="destino-select">
 						<option value="">Selecciona destino</option>
 						<option value="laguna">La Laguna</option>
 						<option value="santacruz">Santa Cruz</option>
 						<option value="adeje">Adeje</option>
 					</select>
 
-					<label for="fecha">Fecha</label>
-					<input type="date" id="fecha" required min="">
+					<label for="fecha">Fecha *</label>
+					<input type="date" id="fecha" name="fecha" required aria-required="true" min="">
 
-					<label for="personas">Número de pasajeros</label>
-					<input type="number" id="personas" min="1" max="8">
+					<label for="personas">Número de pasajeros *</label>
+					<input type="number" id="personas" name="personas" min="1" max="8" inputmode="numeric" required
+						aria-required="true">
 
 				</fieldset>
 
 				<fieldset>
 					<legend>Datos de contacto</legend>
 
-					<label for="email">Email</label>
-					<input type="email" id="email" required>
+					<label for="email">Email *</label>
+					<input type="email" id="email" name="email" autocomplete="email" required aria-required="true" placeholder="ejemplo@taxitenerife.com">
 
 				</fieldset>
 
-				<button class="btn" type="submit">Confirmar reserva</button>
+				<button class="btn" type="submit">Revisar reserva</button>
 
-				<div id="errorBox" aria-live="assertive"></div>
+				<div id="errorBox" aria-live="assertive" role="alert"></div>
 
-				<div id="formStatus" aria-live="assertive" style="margin-top:10px; font-weight:bold;"></div>
+				<div id="reviewBox" hidden aria-live="polite"></div>
+
+				<div id="formStatus" aria-live="assertive"></div>
 
 			</form>
 		</div>

@@ -10,6 +10,8 @@
 
 <body>
 
+	<a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
+
 	<header>
 		<nav class="nav container" aria-label="Navegación principal">
 
@@ -31,20 +33,20 @@
 		</nav>
 	</header>
 
-	<a href="#main" class="skip-link">Saltar al contenido</a>
-
 	<main id="main">
 		<h1 class="titulo-gestion">Gestionar reserva</h1>
 
 		<div class="form-container">
-			<form>
-				<label for="codigo">Código de reserva</label>
-				<input type="text" id="codigo" required>
+			<form aria-describedby="gestion-ayuda">
+				<p id="gestion-ayuda">Los campos marcados con * son obligatorios.</p>
 
-				<label for="email">Email</label>
-				<input type="email" id="email" required>
+				<label for="codigo">Código de reserva *</label>
+				<input type="text" id="codigo" name="codigo" autocomplete="off" required aria-required="true">
 
-				<button class="btn">Buscar</button>
+				<label for="email">Email *</label>
+				<input type="email" id="email" name="email" autocomplete="email" required aria-required="true" placeholder="ejemplo@taxitenerife.com">
+
+				<button class="btn" type="submit">Buscar</button>
 			</form>
 		</div>
 

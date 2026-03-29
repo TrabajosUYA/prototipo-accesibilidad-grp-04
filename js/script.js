@@ -4,15 +4,44 @@
 const toggleButton = document.querySelector(".nav-toggle");
 const navMenu = document.getElementById("nav-menu");
 
-toggleButton?.addEventListener("click", () => {
-  const expanded = toggleButton.getAttribute("aria-expanded") === "true";
+if (toggleButton && navMenu) {
+  const menuLinks = navMenu.querySelectorAll("a");
 
-  // Cambiar estado accesible
-  toggleButton.setAttribute("aria-expanded", !expanded);
+  function openMenu() {
+    navMenu.classList.add("show");
+    toggleButton.setAttribute("aria-expanded", "true");
 
-  // Mostrar / ocultar menú
-  navMenu.classList.toggle("show");
-});
+    // Llevar el foco al primer enlace del menú
+    if (menuLinks.length > 0) {
+      menuLinks[0].focus();
+    }
+  }
+
+  function closeMenu() {
+    navMenu.classList.remove("show");
+    toggleButton.setAttribute("aria-expanded", "false");
+
+    // Devolver el foco al botón hamburguesa
+    toggleButton.focus();
+  }
+
+  toggleButton.addEventListener("click", () => {
+    const expanded = toggleButton.getAttribute("aria-expanded") === "true";
+
+    if (expanded) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Cerrar con Escape cuando el menú esté abierto
+  navMenu.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeMenu();
+    }
+  });
+}
 
 // ==========================
 // FORMULARIO RESERVA
@@ -20,6 +49,7 @@ toggleButton?.addEventListener("click", () => {
 const reservaForm = document.getElementById("reservaForm");
 const formStatus = document.getElementById("formStatus");
 const fechaInput = document.getElementById("fecha");
+const reviewBox = document.getElementById("reviewBox");
 
 if (fechaInput) {
   const hoy = new Date().toISOString().split("T")[0];
@@ -108,7 +138,25 @@ reservaForm?.addEventListener("submit", function (e) {
   }
 
   // OK
-  formStatus.textContent = "Reserva enviada correctamente";
+  reviewBox.hidden = false;
+  reviewBox.innerHTML = `
+  <h2>Revisa tu reserva</h2>
+  <p><strong>Origen:</strong> ${origen.options[origen.selectedIndex].text}</p>
+  <p><strong>Destino:</strong> ${destino.options[destino.selectedIndex].text}</p>
+  <p><strong>Fecha:</strong> ${fecha.value}</p>
+  <p><strong>Pasajeros:</strong> ${personas.value || "No indicado"}</p>
+  <p><strong>Email:</strong> ${email.value}</p>
+  <button type="button" class="btn" id="confirmSubmit">Enviar reserva</button>
+`;
+
+  formStatus.textContent = "";
+  reviewBox.focus?.();
+
+  const confirmButton = document.getElementById("confirmSubmit");
+  confirmButton.addEventListener("click", () => {
+    formStatus.textContent = "Reserva enviada correctamente";
+    reviewBox.hidden = true;
+  });
 });
 
 // ==========================

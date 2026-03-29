@@ -68,7 +68,6 @@ header {
 .nav a:hover,
 .nav a:focus {
   color: var(--primary);
-  outline: none;
 }
 
 /* Logo */
@@ -208,6 +207,11 @@ form {
   box-shadow: var(--shadow);
 }
 
+#formStatus {
+  margin-top:10px; 
+  font-weight:bold;
+}
+
 fieldset {
   border: none;
   margin-bottom: 20px;
@@ -256,6 +260,11 @@ input:focus, textarea:focus {
   border-radius: 8px;
   border: 1px solid var(--border);
   font-size: 0.95rem;
+}
+
+#status {
+  margin-top:10px; 
+  font-weight:bold;
 }
 
 /* ERROR INPUT */
@@ -335,8 +344,9 @@ tbody tr:nth-child(even) {
 }
 
 /* FOCUS */
-a:focus, button:focus, input:focus {
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
   outline: 3px solid var(--primary);
+  outline-offset: 2px;
 }
 
 /* FOOTER */

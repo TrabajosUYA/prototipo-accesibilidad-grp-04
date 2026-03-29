@@ -10,6 +10,8 @@
 
 <body>
 
+	<a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
+
 	<header>
 		<nav class="nav container" aria-label="Navegación principal">
 
@@ -31,24 +33,22 @@
 		</nav>
 	</header>
 
-	<a href="#main" class="skip-link">Saltar al contenido</a>
-
 	<main id="main">
 		<h1 class="titulo-contacto">Contacto</h1>
 
 		<div class="form-container">
-			<form id="contactForm" novalidate>
+			<form id="contactForm" novalidate aria-describedby="contacto-ayuda">
+				<p id="contacto-ayuda">Los campos marcados con * son obligatorios.</p>
 
-				<label for="nombre">Nombre</label>
-				<input type="text" id="nombre" required>
+				<label for="nombre">Nombre *</label>
+				<input type="text" id="nombre" name="nombre" autocomplete="name" required aria-required="true">
 
-				<label for="mensaje">Mensaje</label>
-				<textarea id="mensaje" required></textarea>
+				<label for="mensaje">Mensaje *</label>
+				<textarea id="mensaje" name="mensaje" required aria-required="true"></textarea>
 
-				<button class="btn">Enviar</button>
+				<button class="btn" type="submit">Enviar</button>
 
-				<div id="status" aria-live="polite" style="margin-top:10px; font-weight:bold;"></div>
-
+				<div id="status" aria-live="polite"></div>
 			</form>
 		</div>
 

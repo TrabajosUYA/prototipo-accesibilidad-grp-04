@@ -154,7 +154,7 @@ reservaForm?.addEventListener("submit", function (e) {
 
   const confirmButton = document.getElementById("confirmSubmit");
   confirmButton.addEventListener("click", () => {
-    formStatus.textContent = "Reserva enviada correctamente";
+    formStatus.innerHTML = `Reserva enviada correctamente<br>Código de la reserva: 0001`;
     reviewBox.hidden = true;
   });
 });

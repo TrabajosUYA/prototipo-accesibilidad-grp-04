@@ -2,80 +2,115 @@
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Gestión de reservas</title>
-	<link rel="stylesheet" href="../css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de reservas - Taxi Tenerife</title>
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
 
-	<a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
+  <a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
 
-	<header>
-		<nav class="nav container" aria-label="Navegación principal">
+  <header>
+    <nav class="nav container" aria-label="Navegación principal">
+      <div class="logo">
+        <a href="index.html">Taxi Tenerife</a>
+      </div>
 
-			<div class="logo">
-				<a href="index.html">Taxi Tenerife</a>
-			</div>
+      <ul id="nav-menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="reserva.html">Reservar</a></li>
+        <li><a href="gestion.html" aria-current="page">Gestionar</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
 
-			<ul id="nav-menu">
-				<li><a href="index.html">Inicio</a></li>
-				<li><a href="reserva.html">Reservar</a></li>
-				<li><a href="gestion.html">Gestionar</a></li>
-				<li><a href="contacto.html">Contacto</a></li>
-			</ul>
+      <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
+        ☰
+      </button>
+    </nav>
+  </header>
 
-			<button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
-				☰
-			</button>
+  <main id="main">
+    <h1 class="titulo-gestion">Gestionar reserva</h1>
 
-		</nav>
-	</header>
+    <div class="form-container">
+      <form id="gestionForm" novalidate aria-describedby="gestion-ayuda">
+        <p id="gestion-ayuda">Introduce tu código de reserva y el email con el que reservaste.</p>
 
-	<main id="main">
-		<h1 class="titulo-gestion">Gestionar reserva</h1>
+        <label for="codigo">Código de reserva *</label>
+        <input
+          type="text"
+          id="codigo"
+          name="codigo"
+          autocomplete="off"
+          required
+          aria-required="true"
+          placeholder="Ej. 0001"
+        >
 
-		<div class="form-container">
-			<form aria-describedby="gestion-ayuda">
-				<p id="gestion-ayuda">Los campos marcados con * son obligatorios.</p>
+        <label for="emailGestion">Email *</label>
+        <input
+          type="email"
+          id="emailGestion"
+          name="email"
+          autocomplete="email"
+          required
+          aria-required="true"
+          placeholder="ejemplo@taxitenerife.com"
+        >
 
-				<label for="codigo">Código de reserva *</label>
-				<input type="text" id="codigo" name="codigo" autocomplete="off" required aria-required="true">
+        <div id="gestionErrorBox" role="alert" aria-live="assertive"></div>
 
-				<label for="email">Email *</label>
-				<input type="email" id="email" name="email" autocomplete="email" required aria-required="true" placeholder="ejemplo@taxitenerife.com">
+        <div class="step-actions">
+          <button type="submit" class="btn">Buscar reserva</button>
+        </div>
+      </form>
+    </div>
 
-				<button class="btn" type="submit">Buscar</button>
-			</form>
-		</div>
+    <!-- Zona de resultado: inicialmente vacía -->
+    <div class="table-container result-area" id="resultArea">
+      <p class="result-empty" id="resultEmpty" aria-live="polite">
+        Introduce los datos y pulsa <strong>Buscar reserva</strong> para ver tu reserva.
+      </p>
 
+      <!-- La tabla se muestra sólo cuando hay resultado -->
+      <div id="resultTable" hidden>
+        <table aria-describedby="tabla-desc">
+          <caption id="tabla-desc">Detalles de la reserva encontrada</caption>
+          <thead>
+            <tr>
+              <th scope="col">Código</th>
+              <th scope="col">Origen</th>
+              <th scope="col">Destino</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Hora</th>
+              <th scope="col">Pasajeros</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="resultTableBody">
+            <!-- Filas inyectadas por JS -->
+          </tbody>
+        </table>
 
-		<div class="table-container">
-			<table>
-				<caption>Detalles de la reserva</caption>
-				<thead>
-					<tr>
-						<th scope="col">Código</th>
-						<th scope="col">Origen</th>
-						<th scope="col">Destino</th>
-						<th scope="col">Fecha</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>0001</td>
-						<td>Aeropuerto Sur</td>
-						<td>La Laguna</td>
-						<td>20/03/2026</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+        <div id="cancelStatus" aria-live="polite" style="margin-top:14px;font-weight:bold;"></div>
+      </div>
 
-	</main>
+      <div id="resultNotFound" hidden>
+        <p>
+          No se encontró ninguna reserva con esos datos. Comprueba el código y el email.
+        </p>
+      </div>
+    </div>
+  </main>
 
-	<script src="../js/script.js"></script>
+  <footer>
+    <p>&copy; 2026 Taxi Tenerife</p>
+  </footer>
+
+  <script src="../js/script.js"></script>
 </body>
 
 </html>

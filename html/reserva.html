@@ -2,94 +2,187 @@
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Reserva</title>
-	<link rel="stylesheet" href="../css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserva - Taxi Tenerife</title>
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
 
-	<a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
+  <a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
 
-	<header>
-		<nav class="nav container" aria-label="Navegación principal">
+  <header>
+    <nav class="nav container" aria-label="Navegación principal">
+      <div class="logo">
+        <a href="index.html">Taxi Tenerife</a>
+      </div>
 
-			<div class="logo">
-				<a href="index.html">Taxi Tenerife</a>
-			</div>
+      <ul id="nav-menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="reserva.html" aria-current="page">Reservar</a></li>
+        <li><a href="gestion.html">Gestionar</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
 
-			<ul id="nav-menu">
-				<li><a href="index.html">Inicio</a></li>
-				<li><a href="reserva.html">Reservar</a></li>
-				<li><a href="gestion.html">Gestionar</a></li>
-				<li><a href="contacto.html">Contacto</a></li>
-			</ul>
+      <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
+        ☰
+      </button>
+    </nav>
+  </header>
 
-			<button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
-				☰
-			</button>
+  <main id="main">
+    <h1 class="titulo-reserva">Reserva tu taxi</h1>
 
-		</nav>
-	</header>
+    <!-- BREADCRUMB DE PASOS -->
+    <nav class="breadcrumb-nav" aria-label="Progreso de la reserva">
+      <ol class="breadcrumb" id="stepBreadcrumb">
+        <li class="breadcrumb-item active" id="bc-1" aria-current="step">
+          <span class="step-number" aria-hidden="true">1</span>Trayecto
+        </li>
+        <li class="breadcrumb-item" id="bc-2">
+          <span class="step-number" aria-hidden="true">2</span>Contacto
+        </li>
+        <li class="breadcrumb-item" id="bc-3">
+          <span class="step-number" aria-hidden="true">3</span>Confirmación
+        </li>
+      </ol>
+    </nav>
 
-	<main id="main">
-		<h1 class="titulo-reserva">Reserva tu taxi</h1>
+    <div class="form-container">
+      <form id="reservaForm" novalidate aria-describedby="reserva-ayuda">
+        <p id="reserva-ayuda">Los campos marcados con * son obligatorios.</p>
 
-		<div class="form-container">
-			<form id="reservaForm" novalidate aria-describedby="reserva-ayuda">
-				<p id="reserva-ayuda">Los campos marcados con * son obligatorios. Revisa los datos antes de confirmar la
-					reserva.</p>
+        <!-- PASO 1: DATOS DEL TRAYECTO -->
+        <div class="form-step" id="step-1">
+          <fieldset>
+            <legend>Datos del trayecto</legend>
 
-				<fieldset>
-					<legend>Datos del trayecto</legend>
+            <label for="origen">Origen *</label>
+            <select id="origen" name="origen" required aria-required="true" class="origen-select">
+              <option value="">Selecciona origen</option>
+              <option value="sur">Aeropuerto Tenerife Sur</option>
+              <option value="norte">Aeropuerto Tenerife Norte</option>
+            </select>
 
-					<label for="origen">Origen *</label>
-					<select id="origen" name="origen" required aria-required="true" class="origen-select">
-						<option value="">Selecciona origen</option>
-						<option value="sur">Aeropuerto Tenerife Sur</option>
-						<option value="norte">Aeropuerto Tenerife Norte</option>
-					</select>
+            <!-- DESTINO CON AUTOCOMPLETADO (Nominatim API) -->
+            <label for="destino">Destino *</label>
+            <div class="combobox-wrapper destino-combobox">
+              <input
+                type="text"
+                id="destino"
+                name="destino"
+                required
+                aria-required="true"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="destino-listbox"
+                aria-haspopup="listbox"
+                autocomplete="off"
+                placeholder="Escribe un lugar en Tenerife…"
+              >
+              <ul
+                id="destino-listbox"
+                role="listbox"
+                aria-label="Sugerencias de destino"
+                class="autocomplete-list"
+                hidden
+              ></ul>
+            </div>
 
-					<label for="destino">Destino *</label>
-					<select id="destino" name="destino" required aria-required="true" class="destino-select">
-						<option value="">Selecciona destino</option>
-						<option value="laguna">La Laguna</option>
-						<option value="santacruz">Santa Cruz</option>
-						<option value="adeje">Adeje</option>
-					</select>
+            <!-- FECHA Y HORA -->
+            <div class="fecha-hora-group">
+              <div>
+                <label for="fecha">Fecha *</label>
+                <input type="date" id="fecha" name="fecha" required aria-required="true" min="">
+              </div>
+              <div>
+                <label for="hora">Hora *</label>
+                <input type="time" id="hora" name="hora" required aria-required="true" step="900">
+              </div>
+            </div>
 
-					<label for="fecha">Fecha *</label>
-					<input type="date" id="fecha" name="fecha" required aria-required="true" min="">
+            <label for="personas">Número de pasajeros *</label>
+            <input
+              type="number"
+              id="personas"
+              name="personas"
+              min="1"
+              max="4"
+              inputmode="numeric"
+              required
+              aria-required="true"
+              placeholder="Máximo 4 pasajeros"
+            >
 
-					<label for="personas">Número de pasajeros *</label>
-					<input type="number" id="personas" name="personas" min="1" max="8" inputmode="numeric" required
-						aria-required="true">
+          </fieldset>
 
-				</fieldset>
+          <div id="errorBox-1" class="errorBox" role="alert" aria-live="assertive"></div>
 
-				<fieldset>
-					<legend>Datos de contacto</legend>
+          <div class="step-actions">
+            <button type="button" class="btn" id="nextStep1">Siguiente →</button>
+          </div>
+        </div>
 
-					<label for="email">Email *</label>
-					<input type="email" id="email" name="email" autocomplete="email" required aria-required="true" placeholder="ejemplo@taxitenerife.com">
+        <!-- PASO 2: DATOS DE CONTACTO -->
+        <div class="form-step" id="step-2" hidden>
+          <fieldset>
+            <legend>Datos de contacto</legend>
 
-				</fieldset>
+            <label for="email">Email *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              required
+              aria-required="true"
+              placeholder="ejemplo@taxitenerife.com"
+            >
 
-				<button class="btn" type="submit">Revisar reserva</button>
+            <label for="nombre">Nombre (opcional)</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre">
 
-				<div id="errorBox" aria-live="assertive" role="alert"></div>
+          </fieldset>
 
-				<div id="reviewBox" hidden aria-live="polite"></div>
+          <div id="errorBox-2" class="errorBox" role="alert" aria-live="assertive"></div>
 
-				<div id="formStatus" aria-live="assertive"></div>
+          <div class="step-actions">
+            <button type="button" class="btn btn-secondary" id="prevStep2">← Anterior</button>
+            <button type="button" class="btn" id="nextStep2">Siguiente →</button>
+          </div>
+        </div>
 
-			</form>
-		</div>
+        <!-- PASO 3: CONFIRMACIÓN / REVISIÓN -->
+        <div class="form-step" id="step-3" hidden>
+          <div id="reviewBox" aria-live="polite">
+            <h2>Revisa tu reserva</h2>
+            <p><strong>Origen:</strong> <span id="review-origen"></span></p>
+            <p><strong>Destino:</strong> <span id="review-destino"></span></p>
+            <p><strong>Fecha:</strong> <span id="review-fecha"></span></p>
+            <p><strong>Hora:</strong> <span id="review-hora"></span></p>
+            <p><strong>Pasajeros:</strong> <span id="review-personas"></span></p>
+            <p><strong>Email:</strong> <span id="review-email"></span></p>
+          </div>
 
-	</main>
+          <div id="formStatus" aria-live="assertive" role="status" style="margin-top:14px;font-weight:bold;"></div>
 
-	<script src="../js/script.js"></script>
+          <div class="step-actions" id="confirmActions">
+            <button type="button" class="btn btn-secondary" id="prevStep3">← Anterior</button>
+            <button type="submit" class="btn" id="confirmSubmit">Confirmar reserva</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Taxi Tenerife</p>
+  </footer>
+
+  <script src="../js/script.js"></script>
 </body>
 
 </html>

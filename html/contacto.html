@@ -2,62 +2,139 @@
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Contacto</title>
-	<link rel="stylesheet" href="../css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Taxi Tenerife</title>
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
 
-	<a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
+  <a href="#main" class="skip-link" tabindex="1">Saltar al contenido</a>
 
-	<header>
-		<nav class="nav container" aria-label="Navegación principal">
+  <header>
+    <nav class="nav container" aria-label="Navegación principal">
+      <div class="logo">
+        <a href="index.html">Taxi Tenerife</a>
+      </div>
 
-			<div class="logo">
-				<a href="index.html">Taxi Tenerife</a>
-			</div>
+      <ul id="nav-menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="reserva.html">Reservar</a></li>
+        <li><a href="gestion.html">Gestionar</a></li>
+        <li><a href="contacto.html" aria-current="page">Contacto</a></li>
+      </ul>
 
-			<ul id="nav-menu">
-				<li><a href="index.html">Inicio</a></li>
-				<li><a href="reserva.html">Reservar</a></li>
-				<li><a href="gestion.html">Gestionar</a></li>
-				<li><a href="contacto.html">Contacto</a></li>
-			</ul>
+      <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
+        ☰
+      </button>
+    </nav>
+  </header>
 
-			<button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú">
-				☰
-			</button>
+  <main id="main">
+    <h1 class="titulo-contacto">Contacto</h1>
 
-		</nav>
-	</header>
+    <div class="form-container">
+      <form id="contactForm" novalidate aria-describedby="contacto-ayuda">
+        <p id="contacto-ayuda">Los campos marcados con * son obligatorios.</p>
 
-	<main id="main">
-		<h1 class="titulo-contacto">Contacto</h1>
+        <label for="nombre">Nombre *</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" required aria-required="true">
 
-		<div class="form-container">
-			<form id="contactForm" novalidate aria-describedby="contacto-ayuda">
-				<p id="contacto-ayuda">Los campos marcados con * son obligatorios.</p>
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" autocomplete="email" required aria-required="true" placeholder="ejemplo@taxitenerife.com">
 
-				<label for="nombre">Nombre *</label>
-				<input type="text" id="nombre" name="nombre" autocomplete="name" required aria-required="true">
+        <label for="mensaje">Mensaje *</label>
+        <textarea id="mensaje" name="mensaje" rows="5" required aria-required="true"></textarea>
 
-				<label for="email">Email *</label>
-				<input type="text" id="email" name="email" autocomplete="email" required aria-required="true">
+        <button class="btn" type="submit">Enviar mensaje</button>
 
-				<label for="mensaje">Mensaje *</label>
-				<textarea id="mensaje" name="mensaje" required aria-required="true"></textarea>
+        <div id="status" aria-live="polite" role="status"></div>
+      </form>
+    </div>
 
-				<button class="btn" type="submit">Enviar</button>
+    <!-- SECCIÓN FAQ -->
+    <section class="faq-section" aria-labelledby="faq-titulo">
+      <h2 id="faq-titulo">Preguntas frecuentes</h2>
 
-				<div id="status" aria-live="polite"></div>
-			</form>
-		</div>
+      <ul class="faq-list" role="list">
 
-	</main>
+        <li class="faq-item">
+          <details>
+            <summary>¿Cómo puedo realizar una reserva?</summary>
+            <p class="faq-answer">
+              Puedes reservar tu taxi desde la sección <a href="reserva.html">Reservar</a>. Solo necesitas
+              indicar el aeropuerto de origen, el destino dentro de Tenerife, la fecha y hora deseadas
+              y el número de pasajeros. Al finalizar recibirás un código de reserva en tu email.
+            </p>
+          </details>
+        </li>
 
-	<script src="../js/script.js"></script>
+        <li class="faq-item">
+          <details>
+            <summary>¿Puedo cancelar o modificar mi reserva?</summary>
+            <p class="faq-answer">
+              Sí. Accede a la sección <a href="gestion.html">Gestionar</a>, introduce tu código de reserva
+              y el email con el que reservaste. Podrás consultar los detalles y cancelar la reserva
+              si así lo deseas. Las modificaciones deben solicitarse con al menos 2 horas de antelación.
+            </p>
+          </details>
+        </li>
+
+        <li class="faq-item">
+          <details>
+            <summary>¿Cuántos pasajeros admite el vehículo?</summary>
+            <p class="faq-answer">
+              Nuestros vehículos estándar admiten hasta <strong>4 pasajeros</strong> con equipaje normal.
+              Para grupos de hasta 8 personas disponemos de vehículos de mayor capacidad, seleccionables
+              al indicar el número de pasajeros durante la reserva.
+            </p>
+          </details>
+        </li>
+
+        <li class="faq-item">
+          <details>
+            <summary>¿Qué aeropuertos cubren el servicio?</summary>
+            <p class="faq-answer">
+              Operamos desde el <strong>Aeropuerto Tenerife Sur (TFS)</strong> y el
+              <strong>Aeropuerto Tenerife Norte - Los Rodeos (TFN)</strong>. Cubrimos traslados
+              a cualquier punto de la isla de Tenerife.
+            </p>
+          </details>
+        </li>
+
+        <li class="faq-item">
+          <details>
+            <summary>¿Cuánto tiempo tardaré en recibir confirmación?</summary>
+            <p class="faq-answer">
+              La confirmación se envía automáticamente al email indicado en el momento en que
+              completas la reserva. Si no la recibes en unos minutos, revisa tu carpeta de spam
+              o contáctanos a través de este formulario.
+            </p>
+          </details>
+        </li>
+
+        <li class="faq-item">
+          <details>
+            <summary>¿Se acepta pago con tarjeta?</summary>
+            <p class="faq-answer">
+              Sí, aceptamos pago en efectivo y con tarjeta de crédito o débito directamente al
+              conductor. También puedes pagar anticipadamente de forma segura durante el proceso
+              de reserva online.
+            </p>
+          </details>
+        </li>
+
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Taxi Tenerife</p>
+  </footer>
+
+  <script src="../js/script.js"></script>
 </body>
 
 </html>

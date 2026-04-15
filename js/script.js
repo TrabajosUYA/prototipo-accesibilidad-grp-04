@@ -1,4 +1,26 @@
 // ==========================
+// CÁLCULO DE PRECIOS Y DISTANCIA
+// ==========================
+
+// Coordenadas aproximadas de los aeropuertos
+const COORDENADAS_AEROPUERTOS = {
+  "sur": { lat: 28.0445, lon: -16.5800 },   // Tenerife Sur
+  "norte": { lat: 28.4827, lon: -16.3416 }  // Tenerife Norte
+};
+
+// Fórmula de Haversine para calcular distancia en km entre 2 puntos
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radio de la Tierra en km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c; 
+}
+
+// ==========================
 // NAVBAR RESPONSIVE
 // ==========================
 const toggleButton = document.querySelector(".nav-toggle");
@@ -81,20 +103,20 @@ if (reservaForm) {
     errorBox.style.display = "none";
 
     const errors = [];
-    const origen  = document.getElementById("origen");
+    const origen = document.getElementById("origen");
     const destino = document.getElementById("destino");
-    const fecha   = document.getElementById("fecha");
-    const hora    = document.getElementById("hora");
+    const fecha = document.getElementById("fecha");
+    const hora = document.getElementById("hora");
     const personas = document.getElementById("personas");
 
     [origen, destino, fecha, hora, personas].forEach(inp => {
       inp?.removeAttribute("aria-invalid");
     });
 
-    if (!origen.value)  errors.push({ input: origen,  msg: "El campo Origen es obligatorio" });
+    if (!origen.value) errors.push({ input: origen, msg: "El campo Origen es obligatorio" });
     if (!destino.value.trim()) errors.push({ input: destino, msg: "El campo Destino es obligatorio" });
-    if (!fecha.value)   errors.push({ input: fecha,   msg: "El campo Fecha es obligatorio" });
-    if (!hora.value)    errors.push({ input: hora,    msg: "El campo Hora es obligatorio" });
+    if (!fecha.value) errors.push({ input: fecha, msg: "El campo Fecha es obligatorio" });
+    if (!hora.value) errors.push({ input: hora, msg: "El campo Hora es obligatorio" });
 
     if (fecha.value) {
       const hoy = new Date().toISOString().split("T")[0];
@@ -170,19 +192,45 @@ if (reservaForm) {
 
   // ---- Rellenar resumen ----
   function populateReview() {
-    const origen  = document.getElementById("origen");
+    const origen = document.getElementById("origen");
     const destino = document.getElementById("destino");
-    const fecha   = document.getElementById("fecha");
-    const hora    = document.getElementById("hora");
+    const fecha = document.getElementById("fecha");
+    const hora = document.getElementById("hora");
     const personas = document.getElementById("personas");
-    const email   = document.getElementById("email");
+    const email = document.getElementById("email");
 
-    document.getElementById("review-origen").textContent   = origen.options[origen.selectedIndex]?.text || "—";
-    document.getElementById("review-destino").textContent  = destino.value || "—";
-    document.getElementById("review-fecha").textContent    = fecha.value || "—";
-    document.getElementById("review-hora").textContent     = hora.value || "—";
+    document.getElementById("review-origen").textContent = origen.options[origen.selectedIndex]?.text || "—";
+    document.getElementById("review-destino").textContent = destino.value || "—";
+    document.getElementById("review-fecha").textContent = fecha.value || "—";
+    document.getElementById("review-hora").textContent = hora.value || "—";
     document.getElementById("review-personas").textContent = personas.value || "—";
-    document.getElementById("review-email").textContent    = email.value || "—";
+    document.getElementById("review-email").textContent = email.value || "—";
+
+    const valorOrigen = origen.value; // "sur" o "norte"
+    const latDestino = parseFloat(destino.dataset.lat);
+    const lonDestino = parseFloat(destino.dataset.lon);
+    let textoPrecio = "No disponible (Destino no reconocido)";
+
+    if (COORDENADAS_AEROPUERTOS[valorOrigen] && !isNaN(latDestino) && !isNaN(lonDestino)) {
+      const coordsOrigen = COORDENADAS_AEROPUERTOS[valorOrigen];
+      
+      // 1. Distancia en línea recta
+      const distanciaRecta = calcularDistancia(coordsOrigen.lat, coordsOrigen.lon, latDestino, lonDestino);
+      
+      // 2. Factor de carretera (aprox 1.3 veces la línea recta por la orografía de Tenerife)
+      const distanciaCarretera = distanciaRecta * 1.3;
+
+      // 3. Fórmula de precio: 3.15€ bajada de bandera + 1.10€ el kilómetro
+      const precioCalculado = 3.15 + (distanciaCarretera * 1.10);
+
+      textoPrecio = precioCalculado.toFixed(2) + " € (Aprox.)";
+    }
+
+    // Insertar en el HTML
+    const reviewPrecioEl = document.getElementById("review-precio");
+    if (reviewPrecioEl) {
+      reviewPrecioEl.textContent = textoPrecio;
+    }
   }
 
   // ---- Botones de navegación ----
@@ -224,7 +272,7 @@ if (reservaForm) {
 // AUTOCOMPLETE DESTINO — Nominatim (OpenStreetMap)
 // Bounding box de Tenerife: oeste=-16.92, sur=27.99, este=-16.11, norte=28.59
 // ==========================
-const destinoInput  = document.getElementById("destino");
+const destinoInput = document.getElementById("destino");
 const destinoListbox = document.getElementById("destino-listbox");
 
 if (destinoInput && destinoListbox) {
@@ -294,14 +342,18 @@ if (destinoInput && destinoListbox) {
       li.setAttribute("id", "destino-option-" + i);
       li.setAttribute("aria-selected", "false");
 
-      // Mostrar nombre corto: nombre del lugar + municipio
       const parts = place.display_name.split(",");
       const shortName = parts.slice(0, 3).join(",").trim();
       li.textContent = shortName;
+
+      // NUEVO: Guardar valores y coordenadas
       li.dataset.value = shortName;
+      li.dataset.lat = place.lat;
+      li.dataset.lon = place.lon;
 
       li.addEventListener("mousedown", (e) => e.preventDefault());
-      li.addEventListener("click", () => selectDestino(shortName));
+      // Pasamos lat y lon al hacer clic
+      li.addEventListener("click", () => selectDestino(shortName, place.lat, place.lon));
 
       destinoListbox.appendChild(li);
     });
@@ -310,8 +362,15 @@ if (destinoInput && destinoListbox) {
     destinoInput.setAttribute("aria-expanded", "true");
   }
 
-  function selectDestino(value) {
+  // Modificamos selectDestino para que reciba las coordenadas
+  function selectDestino(value, lat, lon) {
     destinoInput.value = value;
+
+    if (lat && lon) {
+      destinoInput.dataset.lat = lat;
+      destinoInput.dataset.lon = lon;
+    }
+
     destinoInput.removeAttribute("aria-invalid");
     closeAutocomplete();
   }
@@ -338,7 +397,8 @@ if (destinoInput && destinoListbox) {
       highlightOption(options, activeIndex);
     } else if (e.key === "Enter" && activeIndex >= 0) {
       e.preventDefault();
-      selectDestino(options[activeIndex].dataset.value);
+      const op = options[activeIndex];
+      selectDestino(op.dataset.value, op.dataset.lat, op.dataset.lon);
     } else if (e.key === "Escape") {
       closeAutocomplete();
     }
@@ -393,11 +453,11 @@ if (gestionForm) {
     }
   ];
 
-  const resultEmpty   = document.getElementById("resultEmpty");
-  const resultTable   = document.getElementById("resultTable");
+  const resultEmpty = document.getElementById("resultEmpty");
+  const resultTable = document.getElementById("resultTable");
   const resultNotFound = document.getElementById("resultNotFound");
   const resultTableBody = document.getElementById("resultTableBody");
-  const cancelStatus  = document.getElementById("cancelStatus");
+  const cancelStatus = document.getElementById("cancelStatus");
   const gestionErrorBox = document.getElementById("gestionErrorBox");
 
   gestionForm.addEventListener("submit", function (e) {
@@ -412,7 +472,7 @@ if (gestionForm) {
     cancelStatus.textContent = "";
 
     const codigoInput = document.getElementById("codigo");
-    const emailInput  = document.getElementById("emailGestion");
+    const emailInput = document.getElementById("emailGestion");
 
     codigoInput.removeAttribute("aria-invalid");
     emailInput.removeAttribute("aria-invalid");
@@ -420,7 +480,7 @@ if (gestionForm) {
     // Validar campos
     const errors = [];
     if (!codigoInput.value.trim()) errors.push({ input: codigoInput, msg: "El código de reserva es obligatorio" });
-    if (!emailInput.value.trim())  errors.push({ input: emailInput,  msg: "El email es obligatorio" });
+    if (!emailInput.value.trim()) errors.push({ input: emailInput, msg: "El email es obligatorio" });
     else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(emailInput.value)) {
@@ -447,7 +507,7 @@ if (gestionForm) {
     // Buscar reserva
     const reserva = reservasFake.find(
       r => r.codigo === codigoInput.value.trim() &&
-           r.email.toLowerCase() === emailInput.value.trim().toLowerCase()
+        r.email.toLowerCase() === emailInput.value.trim().toLowerCase()
     );
 
     if (!reserva) {
@@ -501,7 +561,7 @@ if (gestionForm) {
 // ==========================
 // FORMULARIO CONTACTO
 // ==========================
-const contactForm   = document.getElementById("contactForm");
+const contactForm = document.getElementById("contactForm");
 const contactStatus = document.getElementById("status");
 
 if (contactForm && contactStatus) {

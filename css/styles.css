@@ -417,12 +417,57 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
   outline-offset: 2px;
 }
 
-/* FOOTER */
+/* ==========================
+   ACTUALIZACIÓN FOOTER
+   ========================== */
 footer {
-  text-align: center;
-  padding: 30px;
+  background: var(--muted);
+  border-top: 1px solid var(--border);
+  padding: 30px 0;
+  margin-top: 50px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* En pantallas grandes, se pone a los lados */
+@media (min-width: 600px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.footer-content p {
+  margin: 0;
   color: var(--surface);
-  background-color: #3c4c61;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  color: var(--surface);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: var(--primary);
+  text-decoration-thickness: 2px;
 }
 
 /* ==========================================

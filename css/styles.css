@@ -6,6 +6,7 @@
   --text: #0f172a;
   --muted: #3c4c61;
   --border: #e2e8f0;
+  --footer-links: #38a5f5;
 
   --radius: 14px;
   --shadow: 0 8px 30px rgba(0,0,0,0.08);
@@ -297,6 +298,11 @@ select:focus {
   font-weight: bold;
 }
 
+.link-gestionar {
+  text-decoration: none;
+  color: var(--primary-dark);
+}
+
 /* ERROR INPUT */
 input[aria-invalid="true"],
 select[aria-invalid="true"] {
@@ -466,7 +472,7 @@ footer {
 
 .footer-links a:hover,
 .footer-links a:focus {
-  color: var(--primary);
+  color: var(--footer-links);
   text-decoration-thickness: 2px;
 }
 

@@ -13,11 +13,11 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
   const R = 6371; // Radio de la Tierra en km
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c; 
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 // ==========================
@@ -213,10 +213,10 @@ if (reservaForm) {
 
     if (COORDENADAS_AEROPUERTOS[valorOrigen] && !isNaN(latDestino) && !isNaN(lonDestino)) {
       const coordsOrigen = COORDENADAS_AEROPUERTOS[valorOrigen];
-      
+
       // 1. Distancia en línea recta
       const distanciaRecta = calcularDistancia(coordsOrigen.lat, coordsOrigen.lon, latDestino, lonDestino);
-      
+
       // 2. Factor de carretera (aprox 1.3 veces la línea recta por la orografía de Tenerife)
       const distanciaCarretera = distanciaRecta * 1.3;
 
@@ -278,23 +278,25 @@ if (reservaForm) {
   const cancelButton = document.getElementById("cancelButton");
   const recoverButton = document.getElementById("recoverButton");
   const confirmActions = document.getElementById("confirmActions");
-  const reviewContent = document.getElementById("reviewContent");
+  const confirmSubmit = document.getElementById("confirmSubmit");
+  const reviewContent = document.getElementById("reviewBox");
   const cancelContainer = document.getElementById("cancelContainer");
 
   cancelButton?.addEventListener("click", () => {
     reviewContent.hidden = true;
     confirmActions.hidden = true;
-    
+    confirmSubmit.hidden = true;
+
     cancelContainer.hidden = false;
     recoverButton.focus();
   });
 
   recoverButton?.addEventListener("click", () => {
     cancelContainer.hidden = true;
-    
+
     reviewContent.hidden = false;
     confirmActions.hidden = false;
-    
+
     document.getElementById("confirmSubmit").focus();
   });
 
@@ -318,82 +320,114 @@ if (reservaForm) {
   showStep(1);
 }
 
+// Esperamos a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Seleccionamos los botones por su ID
+  const botonCancelar = document.getElementById('cancelButton');
+  const botonConfirmar = document.getElementById('confirmSubmit');
+  const botonRecuperar = document.getElementById('recoverButton');
+
+  // Verificamos que ambos botones existan en la página actual
+  if (botonCancelar && botonConfirmar) {
+    botonCancelar.addEventListener('click', (event) => {
+      // Opcional: Evitar que el botón recargue la página si está dentro de un formulario
+      event.preventDefault();
+
+      // Ocultamos el botón de confirmar
+      botonConfirmar.style.display = 'none';
+      botonCancelar.style.display = 'none';
+    });
+  }
+
+  if (botonRecuperar && botonConfirmar) {
+    botonRecuperar.addEventListener('click', (event) => {
+      event.preventDefault(); // Evita recargar si está en un formulario
+
+      // Volvemos a mostrar el botón
+      // Dejarlo vacío ('') hace que recupere su estilo original del CSS (block, inline, etc.)
+      botonConfirmar.style.display = '';
+      botonCancelar.style.display = '';
+    });
+  }
+});
+
 // ==========================
-  // VALIDACIÓN EN TIEMPO REAL (INLINE)
-  // ==========================
-  const inputsReserva = reservaForm.querySelectorAll("input, select");
+// VALIDACIÓN EN TIEMPO REAL (INLINE)
+// ==========================
+const inputsReserva = reservaForm.querySelectorAll("input, select");
 
-  inputsReserva.forEach(input => {
-    // Validar cuando el usuario sale del campo (pierde el foco)
-    input.addEventListener("blur", function () {
-      validarCampoInmediato(this);
-    });
-
-    // Validar mientras escribe (solo si ya tenía un error previo, para quitárselo rápido)
-    input.addEventListener("input", function () {
-      if (this.hasAttribute("aria-invalid")) {
-        validarCampoInmediato(this);
-      }
-    });
+inputsReserva.forEach(input => {
+  // Validar cuando el usuario sale del campo (pierde el foco)
+  input.addEventListener("blur", function () {
+    validarCampoInmediato(this);
   });
 
-  function validarCampoInmediato(input) {
-    let mensajeError = "";
-
-    // 1. Validaciones generales
-    if (input.required && !input.value.trim()) {
-      mensajeError = "Este campo es obligatorio";
+  // Validar mientras escribe (solo si ya tenía un error previo, para quitárselo rápido)
+  input.addEventListener("input", function () {
+    if (this.hasAttribute("aria-invalid")) {
+      validarCampoInmediato(this);
     }
+  });
+});
 
-    // 2. Validaciones específicas por campo
-    if (input.value) {
-      if (input.id === "email") {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(input.value)) {
-          mensajeError = "Formato de email no válido";
-        }
-      } else if (input.id === "personas") {
-        const val = parseInt(input.value, 10);
-        if (val < 1 || val > 4) {
-          mensajeError = "Pasajeros entre 1 y 4";
-        }
-      } else if (input.id === "fecha") {
-        const hoy = new Date().toISOString().split("T")[0];
-        if (input.value < hoy) {
-          mensajeError = "La fecha no puede ser anterior a hoy";
-        }
+function validarCampoInmediato(input) {
+  let mensajeError = "";
+
+  // 1. Validaciones generales
+  if (input.required && !input.value.trim()) {
+    mensajeError = "Este campo es obligatorio";
+  }
+
+  // 2. Validaciones específicas por campo
+  if (input.value) {
+    if (input.id === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(input.value)) {
+        mensajeError = "Formato de email no válido";
       }
-    }
-
-    // 3. Mostrar u ocultar el error en el DOM
-    const errorId = input.id + "-inline-error";
-    let errorElement = document.getElementById(errorId);
-
-    if (mensajeError) {
-      // Hay error: marcamos como inválido
-      input.setAttribute("aria-invalid", "true");
-      
-      // Si no existe la caja de error debajo del input, la creamos
-      if (!errorElement) {
-        errorElement = document.createElement("div");
-        errorElement.id = errorId;
-        errorElement.className = "error-inline";
-        
-        // ¡Clave para accesibilidad!
-        errorElement.setAttribute("role", "alert"); 
-        errorElement.setAttribute("aria-live", "polite");
-        
-        input.insertAdjacentElement("afterend", errorElement);
+    } else if (input.id === "personas") {
+      const val = parseInt(input.value, 10);
+      if (val < 1 || val > 4) {
+        mensajeError = "Pasajeros entre 1 y 4";
       }
-      errorElement.textContent = mensajeError;
-    } else {
-      // Todo correcto: limpiamos atributos y borramos el mensaje
-      input.removeAttribute("aria-invalid");
-      if (errorElement) {
-        errorElement.remove();
+    } else if (input.id === "fecha") {
+      const hoy = new Date().toISOString().split("T")[0];
+      if (input.value < hoy) {
+        mensajeError = "La fecha no puede ser anterior a hoy";
       }
     }
   }
+
+  // 3. Mostrar u ocultar el error en el DOM
+  const errorId = input.id + "-inline-error";
+  let errorElement = document.getElementById(errorId);
+
+  if (mensajeError) {
+    // Hay error: marcamos como inválido
+    input.setAttribute("aria-invalid", "true");
+
+    // Si no existe la caja de error debajo del input, la creamos
+    if (!errorElement) {
+      errorElement = document.createElement("div");
+      errorElement.id = errorId;
+      errorElement.className = "error-inline";
+
+      // ¡Clave para accesibilidad!
+      errorElement.setAttribute("role", "alert");
+      errorElement.setAttribute("aria-live", "polite");
+
+      input.insertAdjacentElement("afterend", errorElement);
+    }
+    errorElement.textContent = mensajeError;
+  } else {
+    // Todo correcto: limpiamos atributos y borramos el mensaje
+    input.removeAttribute("aria-invalid");
+    if (errorElement) {
+      errorElement.remove();
+    }
+  }
+}
 
 // ==========================
 // AUTOCOMPLETE DESTINO — Nominatim (OpenStreetMap)

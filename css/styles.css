@@ -375,6 +375,27 @@ select[aria-invalid="true"] {
   color: var(--primary-dark);
 }
 
+/* ==========================
+   CAJA DE CANCELACIÓN (UNDO)
+   ========================== */
+.cancel-message-box {
+  background-color: #fce8e6;
+  border: 1px solid #d93025; 
+  border-radius: var(--radius);
+  padding: 25px;
+  text-align: center;
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.cancel-message-box p {
+  color: #d93025;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
 /* CAJA DE ERRORES */
 #errorBox {
   margin-top: 15px;

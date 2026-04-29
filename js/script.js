@@ -275,6 +275,29 @@ if (reservaForm) {
 
   document.getElementById("prevStep3")?.addEventListener("click", () => showStep(2));
 
+  const cancelButton = document.getElementById("cancelButton");
+  const recoverButton = document.getElementById("recoverButton");
+  const confirmActions = document.getElementById("confirmActions");
+  const reviewContent = document.getElementById("reviewContent");
+  const cancelContainer = document.getElementById("cancelContainer");
+
+  cancelButton?.addEventListener("click", () => {
+    reviewContent.hidden = true;
+    confirmActions.hidden = true;
+    
+    cancelContainer.hidden = false;
+    recoverButton.focus();
+  });
+
+  recoverButton?.addEventListener("click", () => {
+    cancelContainer.hidden = true;
+    
+    reviewContent.hidden = false;
+    confirmActions.hidden = false;
+    
+    document.getElementById("confirmSubmit").focus();
+  });
+
   // ---- Submit final ----
   reservaForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -331,8 +354,8 @@ if (reservaForm) {
         }
       } else if (input.id === "personas") {
         const val = parseInt(input.value, 10);
-        if (val < 1 || val > 8) {
-          mensajeError = "Pasajeros entre 1 y 8";
+        if (val < 1 || val > 4) {
+          mensajeError = "Pasajeros entre 1 y 4";
         }
       } else if (input.id === "fecha") {
         const hoy = new Date().toISOString().split("T")[0];
@@ -526,14 +549,6 @@ if (destinoInput && destinoListbox) {
     setTimeout(closeAutocomplete, 180);
   });
 }
-
-// ---- Botón de Cancelar Reserva ----
-  document.getElementById("cancelButton")?.addEventListener("click", () => {
-    if (confirm("¿Estás seguro de que deseas cancelar? Se perderán los datos introducidos y se borrará la reserva en caso de haberla confirmado.")) {
-      reservaForm.reset(); // Borra todos los campos
-      showStep(1); // Devuelve al usuario al primer paso
-    }
-  });
 
 // ==========================
 // FORMULARIO GESTIÓN

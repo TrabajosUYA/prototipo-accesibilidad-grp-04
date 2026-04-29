@@ -129,8 +129,8 @@ if (reservaForm) {
       errors.push({ input: personas, msg: "El campo Número de pasajeros es obligatorio" });
     } else {
       const val = parseInt(personas.value, 10);
-      if (val < 1 || val > 8) {
-        errors.push({ input: personas, msg: "El número de pasajeros debe estar entre 1 y 8" });
+      if (val < 1 || val > 4) {
+        errors.push({ input: personas, msg: "El número de pasajeros debe estar entre 1 y 4" });
       }
     }
 
@@ -267,6 +267,83 @@ if (reservaForm) {
   // ---- Iniciar en paso 1 ----
   showStep(1);
 }
+
+// ==========================
+  // VALIDACIÓN EN TIEMPO REAL (INLINE)
+  // ==========================
+  const inputsReserva = reservaForm.querySelectorAll("input, select");
+
+  inputsReserva.forEach(input => {
+    // Validar cuando el usuario sale del campo (pierde el foco)
+    input.addEventListener("blur", function () {
+      validarCampoInmediato(this);
+    });
+
+    // Validar mientras escribe (solo si ya tenía un error previo, para quitárselo rápido)
+    input.addEventListener("input", function () {
+      if (this.hasAttribute("aria-invalid")) {
+        validarCampoInmediato(this);
+      }
+    });
+  });
+
+  function validarCampoInmediato(input) {
+    let mensajeError = "";
+
+    // 1. Validaciones generales
+    if (input.required && !input.value.trim()) {
+      mensajeError = "Este campo es obligatorio";
+    }
+
+    // 2. Validaciones específicas por campo
+    if (input.value) {
+      if (input.id === "email") {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(input.value)) {
+          mensajeError = "Formato de email no válido";
+        }
+      } else if (input.id === "personas") {
+        const val = parseInt(input.value, 10);
+        if (val < 1 || val > 8) {
+          mensajeError = "Pasajeros entre 1 y 8";
+        }
+      } else if (input.id === "fecha") {
+        const hoy = new Date().toISOString().split("T")[0];
+        if (input.value < hoy) {
+          mensajeError = "La fecha no puede ser anterior a hoy";
+        }
+      }
+    }
+
+    // 3. Mostrar u ocultar el error en el DOM
+    const errorId = input.id + "-inline-error";
+    let errorElement = document.getElementById(errorId);
+
+    if (mensajeError) {
+      // Hay error: marcamos como inválido
+      input.setAttribute("aria-invalid", "true");
+      
+      // Si no existe la caja de error debajo del input, la creamos
+      if (!errorElement) {
+        errorElement = document.createElement("div");
+        errorElement.id = errorId;
+        errorElement.className = "error-inline";
+        
+        // ¡Clave para accesibilidad!
+        errorElement.setAttribute("role", "alert"); 
+        errorElement.setAttribute("aria-live", "polite");
+        
+        input.insertAdjacentElement("afterend", errorElement);
+      }
+      errorElement.textContent = mensajeError;
+    } else {
+      // Todo correcto: limpiamos atributos y borramos el mensaje
+      input.removeAttribute("aria-invalid");
+      if (errorElement) {
+        errorElement.remove();
+      }
+    }
+  }
 
 // ==========================
 // AUTOCOMPLETE DESTINO — Nominatim (OpenStreetMap)

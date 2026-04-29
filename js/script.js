@@ -423,6 +423,14 @@ if (destinoInput && destinoListbox) {
   });
 }
 
+// ---- Botón de Cancelar Reserva ----
+  document.getElementById("cancelButton")?.addEventListener("click", () => {
+    if (confirm("¿Estás seguro de que deseas cancelar? Se perderán los datos introducidos y se borrará la reserva en caso de haberla confirmado.")) {
+      reservaForm.reset(); // Borra todos los campos
+      showStep(1); // Devuelve al usuario al primer paso
+    }
+  });
+
 // ==========================
 // FORMULARIO GESTIÓN
 // ==========================

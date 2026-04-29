@@ -179,6 +179,38 @@ header {
   transform: translateY(-2px);
 }
 
+/* Distribución de los botones */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  gap: 15px;
+  flex-wrap: wrap; /* Para que en móviles no se aplasten y bajen de línea */
+}
+
+/* Ajuste del ancho para que queden parejos */
+.step-actions .btn {
+  margin-top: 0;
+  margin-right: 0; /* Anula el margin-right del btn-secondary */
+  flex: 1; /* Todos crecen por igual */
+  max-width: 32%; /* Evita que se estiren más de un tercio del ancho */
+  text-align: center;
+}
+
+/* Estilo visual del botón cancelar */
+.btn-cancel {
+  background: transparent;
+  color: #d93025; /* Color rojo de advertencia */
+  border: 2px solid #d93025;
+}
+
+.btn-cancel:hover,
+.btn-cancel:focus {
+  background: #fce8e6;
+  transform: translateY(-2px);
+}
+
 /* CARDS */
 .cards {
   display: grid;

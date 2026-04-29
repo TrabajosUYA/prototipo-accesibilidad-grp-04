@@ -68,27 +68,11 @@
             <!-- DESTINO CON AUTOCOMPLETADO (Nominatim API) -->
             <label for="destino">Destino *</label>
             <div class="combobox-wrapper destino-combobox">
-              <input
-                type="text"
-                id="destino"
-                name="destino"
-                required
-                aria-required="true"
-                role="combobox"
-                aria-expanded="false"
-                aria-autocomplete="list"
-                aria-controls="destino-listbox"
-                aria-haspopup="listbox"
-                autocomplete="off"
-                placeholder="Escribe un lugar en Tenerife…"
-              >
-              <ul
-                id="destino-listbox"
-                role="listbox"
-                aria-label="Sugerencias de destino"
-                class="autocomplete-list"
-                hidden
-              ></ul>
+              <input type="text" id="destino" name="destino" required aria-required="true" role="combobox"
+                aria-expanded="false" aria-autocomplete="list" aria-controls="destino-listbox" aria-haspopup="listbox"
+                autocomplete="off" placeholder="Escribe un lugar en Tenerife…">
+              <ul id="destino-listbox" role="listbox" aria-label="Sugerencias de destino" class="autocomplete-list"
+                hidden></ul>
             </div>
 
             <!-- FECHA Y HORA -->
@@ -104,17 +88,8 @@
             </div>
 
             <label for="personas">Número de pasajeros *</label>
-            <input
-              type="number"
-              id="personas"
-              name="personas"
-              min="1"
-              max="4"
-              inputmode="numeric"
-              required
-              aria-required="true"
-              placeholder="Máximo 4 pasajeros"
-            >
+            <input type="number" id="personas" name="personas" min="1" max="4" inputmode="numeric" required
+              aria-required="true" placeholder="Máximo 4 pasajeros">
 
           </fieldset>
 
@@ -128,18 +103,15 @@
         <!-- PASO 2: DATOS DE CONTACTO -->
         <div class="form-step" id="step-2" hidden>
           <fieldset>
+            <div id="mini-resumen" class="mini-resumen" aria-live="polite">
+              <!-- El contenido se inyectará con JavaScript -->
+            </div>
+
             <legend>Datos de contacto</legend>
 
             <label for="email">Email *</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autocomplete="email"
-              required
-              aria-required="true"
-              placeholder="ejemplo@taxitenerife.com"
-            >
+            <input type="email" id="email" name="email" autocomplete="email" required aria-required="true"
+              placeholder="ejemplo@taxitenerife.com">
 
             <label for="nombre">Nombre (opcional)</label>
             <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre">
@@ -165,7 +137,8 @@
             <p><strong>Pasajeros:</strong> <span id="review-personas"></span></p>
             <p><strong>Email:</strong> <span id="review-email"></span></p>
             <p><strong>Precio estimado:</strong> <span id="review-precio">—</span></p>
-            <p><strong>Para cancelar la reserva accede a <a href="gestion.html" class="link-gestionar">Gestionar</a></strong></p>
+            <p><strong>Para cancelar la reserva accede a <a href="gestion.html"
+                  class="link-gestionar">Gestionar</a></strong></p>
           </div>
 
           <div id="formStatus" aria-live="assertive" role="status" style="margin-top:14px;font-weight:bold;"></div>
@@ -184,7 +157,7 @@
   <footer>
     <div class="container footer-content">
       <p>&copy; 2026 Taxi Tenerife</p>
-      
+
       <ul class="footer-links" aria-label="Enlaces legales">
         <li><a href="#">Aviso Legal</a></li>
         <li><a href="#">Política de Privacidad</a></li>

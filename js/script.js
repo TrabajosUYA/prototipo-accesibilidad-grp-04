@@ -235,8 +235,35 @@ if (reservaForm) {
 
   // ---- Botones de navegación ----
   document.getElementById("nextStep1")?.addEventListener("click", () => {
-    if (validateStep1()) showStep(2);
+    if (validateStep1()) {
+      actualizarMiniResumen(); // Llamamos a la nueva función
+      showStep(2);
+    }
   });
+
+  // NUEVA FUNCIÓN: Recoge los datos del paso 1 y los pinta en el paso 2
+  function actualizarMiniResumen() {
+    const miniResumen = document.getElementById("mini-resumen");
+    if (!miniResumen) return;
+
+    const origen = document.getElementById("origen");
+    const destino = document.getElementById("destino");
+    const fecha = document.getElementById("fecha").value;
+    const hora = document.getElementById("hora").value;
+
+    const textoOrigen = origen.options[origen.selectedIndex]?.text || "—";
+    const textoDestino = destino.value || "—";
+
+    // Inyectamos el HTML con los datos
+    miniResumen.innerHTML = `
+      <p><strong>Resumen de tu viaje:</strong></p>
+      <ul style="margin: 5px 0; padding-left: 20px;">
+        <li><strong>Origen:</strong> ${textoOrigen}</li>
+        <li><strong>Destino:</strong> ${textoDestino}</li>
+        <li><strong>Cuándo:</strong> ${fecha} a las ${hora}</li>
+      </ul>
+    `;
+  }
 
   document.getElementById("prevStep2")?.addEventListener("click", () => showStep(1));
   document.getElementById("nextStep2")?.addEventListener("click", () => {

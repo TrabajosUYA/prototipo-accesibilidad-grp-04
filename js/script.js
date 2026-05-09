@@ -355,21 +355,24 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================
 // VALIDACIÓN EN TIEMPO REAL (INLINE)
 // ==========================
-const inputsReserva = reservaForm.querySelectorAll("input, select");
 
-inputsReserva.forEach(input => {
-  // Validar cuando el usuario sale del campo (pierde el foco)
-  input.addEventListener("blur", function () {
-    validarCampoInmediato(this);
-  });
+if (reservaForm) {
+  const inputsReserva = reservaForm.querySelectorAll("input, select");
 
-  // Validar mientras escribe (solo si ya tenía un error previo, para quitárselo rápido)
-  input.addEventListener("input", function () {
-    if (this.hasAttribute("aria-invalid")) {
+  inputsReserva.forEach(input => {
+    // Validar cuando el usuario sale del campo (pierde el foco)
+    input.addEventListener("blur", function () {
       validarCampoInmediato(this);
-    }
+    });
+
+    // Validar mientras escribe (solo si ya tenía un error previo, para quitárselo rápido)
+    input.addEventListener("input", function () {
+      if (this.hasAttribute("aria-invalid")) {
+        validarCampoInmediato(this);
+      }
+    });
   });
-});
+}
 
 function validarCampoInmediato(input) {
   let mensajeError = "";
@@ -597,7 +600,7 @@ if (gestionForm) {
       email: "ejemplo@taxitenerife.com",
       origen: "Aeropuerto Tenerife Sur",
       destino: "La Laguna",
-      fecha: "2026-05-20",
+      fecha: "20-05-2026",
       hora: "10:30",
       personas: 2,
       estado: "Confirmada"
@@ -607,7 +610,7 @@ if (gestionForm) {
       email: "usuario@correo.com",
       origen: "Aeropuerto Tenerife Norte",
       destino: "Santa Cruz de Tenerife",
-      fecha: "2026-06-15",
+      fecha: "15-06-2026",
       hora: "14:00",
       personas: 4,
       estado: "Confirmada"

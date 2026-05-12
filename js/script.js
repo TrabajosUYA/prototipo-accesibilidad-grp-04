@@ -603,6 +603,7 @@ if (gestionForm) {
       fecha: "20-05-2026",
       hora: "10:30",
       personas: 2,
+      precio: "82.50 €",
       estado: "Confirmada"
     },
     {
@@ -613,6 +614,7 @@ if (gestionForm) {
       fecha: "15-06-2026",
       hora: "14:00",
       personas: 4,
+      precio: "20.00 €",
       estado: "Confirmada"
     }
   ];
@@ -691,6 +693,7 @@ if (gestionForm) {
       <td>${escapeHtml(reserva.fecha)}</td>
       <td>${escapeHtml(reserva.hora)}</td>
       <td>${escapeHtml(String(reserva.personas))}</td>
+      <td>${escapeHtml(reserva.precio)}</td>
       <td>${escapeHtml(reserva.estado)}</td>
       <td>
         <button class="badge-cancelar" data-codigo="${escapeHtml(reserva.codigo)}" aria-label="Cancelar reserva ${escapeHtml(reserva.codigo)}">
